@@ -46,7 +46,7 @@ public class TestIrr {
         Selenide.open("https://www.google.com");
         //Selenide.getElement(By.id("lst-ib")).sendKeys("Selenide tutorial");
         WebElement find = Selenide.getElement(By.id("lst-ib"));
-        find.sendKeys("Selenide tutorial for Ira");
+        find.sendKeys("Selenide tutorial for Ira from kits");
         find.submit();
         $(By.id("lst-ib")).should(Condition.exist);
 
