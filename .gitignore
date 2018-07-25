@@ -32,3 +32,8 @@ hs_err_pid*
 # folders
 allure-report
 debug.log
+.gradle/
+.idea/
+allure-results/
+build/
+src/main/java/matchers/
