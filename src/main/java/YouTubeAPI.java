@@ -6,7 +6,7 @@ public class YouTubeAPI {
     private static final String URL_SEARCH = "https://www.googleapis.com/youtube/v3/search?";
     private static final String PART = "part=id&";
     private static final String API_KEY = "key=AIzaSyBkY2xUshitoSb_D0_rnCk9seFXwbNsd0Y&";
-    private static final String ENDING = "type=video&maxResults=10&order=viewcount&regionCode=US";
+    private static final String ENDING = "type=video&maxResults=15&order=viewcount&regionCode=US";
 
     // q=blablabla
     private String searchWord;

@@ -1,4 +1,5 @@
 import com.codeborne.selenide.Selenide;
+import lastfmserilisation.LastFmResponse;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 import youtubeSerilisation.Items;
@@ -21,9 +22,17 @@ public class Youtubetesty {
     @Test
     public void checkApiYoutube() throws InterruptedException {
 
-        //List<String> famousRockBands = new ArrayList<>("Queen", "Opeth");
+        Random rand = new Random();
+        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=hard rock&api_key=a279739ea5aedd3e58eac7b34dbba8bc&format=json&page=1";
+        String lastFmResponseString = when().get(last_fm).getBody().prettyPrint();
+        System.out.println(lastFmResponseString);
+        LastFmResponse lastFmResponse = JsonParser.fromJson(lastFmResponseString, LastFmResponse.class);
 
-        YouTubeAPI youTubeAPI = new YouTubeAPI("Smells Like Teen Spirit", "medium");
+        String chooseArtist = lastFmResponse.getTopartists().getArtist().get(rand.nextInt(lastFmResponse.getTopartists().getArtist().size())).getName();
+
+        System.out.println("We choose " + chooseArtist);
+
+        YouTubeAPI youTubeAPI = new YouTubeAPI(chooseArtist, "medium");
         String url = youTubeAPI.getUrl();
         System.out.println("URL = " + url);
 
@@ -36,14 +45,16 @@ public class Youtubetesty {
 
 
         YoutubeResponce response = when().get(url).as(YoutubeResponce.class);
-        Random rand = new Random();
+
         Items item = Arrays.asList(response.getItems()).get(rand.nextInt(response.getItems().length));
         String videoId = item.getId().getVideoId();
         System.out.println("videoId = " + videoId);
         String newYoutubeUrl = "https://www.youtube.com/watch?v=" + videoId;
         browser = "chrome";
         Selenide.open(newYoutubeUrl);
-        wait(100000);
+        Thread.sleep(100000);
+
+
 
     }
 }
