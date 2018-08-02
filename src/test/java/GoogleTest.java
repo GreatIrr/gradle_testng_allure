@@ -6,7 +6,7 @@ import steps.GoogleSteps;
  */
 public class GoogleTest {
 
-    private GoogleSteps googleSteps;
+    private GoogleSteps googleSteps = new GoogleSteps();
 
     @Test
     public void checkPicture() {

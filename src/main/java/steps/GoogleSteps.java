@@ -7,7 +7,7 @@ import pages.GooglePage;
  */
 public class GoogleSteps {
 
-    private GooglePage googlePage;
+    private GooglePage googlePage = new GooglePage();
 
     public void newRequest(final String... request) {
         googlePage.findWords(request);
