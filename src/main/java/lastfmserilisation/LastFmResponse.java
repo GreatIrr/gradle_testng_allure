@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class LastFmResponse {
 
-    //private String lastFm_key = "a279739ea5aedd3e58eac7b34dbba8bc";
 
     @SerializedName("topartists")
     private Topartists topartists;

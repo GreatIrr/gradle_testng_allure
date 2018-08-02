@@ -23,7 +23,7 @@ public class Youtubetesty {
     public void checkApiYoutube() throws InterruptedException {
 
         Random rand = new Random();
-        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=hard rock&api_key=a279739ea5aedd3e58eac7b34dbba8bc&format=json&page=1";
+        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=hard rock&api_key=your_api&format=json&page=1";
         String lastFmResponseString = when().get(last_fm).getBody().prettyPrint();
         System.out.println(lastFmResponseString);
         LastFmResponse lastFmResponse = JsonParser.fromJson(lastFmResponseString, LastFmResponse.class);
