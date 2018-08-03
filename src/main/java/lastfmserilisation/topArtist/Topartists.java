@@ -1,4 +1,4 @@
-package lastfmserilisation;
+package lastfmserilisation.topArtist;
 
 import com.google.gson.annotations.SerializedName;
 

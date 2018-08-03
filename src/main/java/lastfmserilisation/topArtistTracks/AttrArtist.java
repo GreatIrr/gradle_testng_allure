@@ -1,11 +1,14 @@
-package lastfmserilisation;
+package lastfmserilisation.topArtistTracks;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Attr {
+/**
+ * Created by Iryna_Bartnytska on 8/3/2018.
+ */
+public class AttrArtist {
 
-    @SerializedName("tag")
-    private String tag;
+    @SerializedName("artist")
+    private String artist;
 
     @SerializedName("page")
     private String page;
@@ -19,12 +22,12 @@ public class Attr {
     @SerializedName("total")
     private String total;
 
-    public String getTag() {
-        return tag;
+    public String getArtist() {
+        return artist;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 
     public String getPage() {

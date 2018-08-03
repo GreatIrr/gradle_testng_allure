@@ -1,13 +1,12 @@
 import com.codeborne.selenide.Selenide;
-import lastfmserilisation.LastFmResponse;
+import lastfmserilisation.topArtist.TopArtistResponse;
+import lastfmserilisation.topArtistTracks.TopArtistTrackResponse;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 import youtubeSerilisation.Items;
 import youtubeSerilisation.YoutubeResponce;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import static com.codeborne.selenide.Configuration.browser;
@@ -23,16 +22,28 @@ public class Youtubetesty {
     public void checkApiYoutube() throws InterruptedException {
 
         Random rand = new Random();
-        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=hard rock&api_key=your_api&format=json&page=1";
+
+        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=russian&api_key=last_fm&format=json&page=1";
         String lastFmResponseString = when().get(last_fm).getBody().prettyPrint();
-        System.out.println(lastFmResponseString);
-        LastFmResponse lastFmResponse = JsonParser.fromJson(lastFmResponseString, LastFmResponse.class);
+
+        TopArtistResponse lastFmResponse = JsonParser.fromJson(lastFmResponseString, TopArtistResponse.class);
 
         String chooseArtist = lastFmResponse.getTopartists().getArtist().get(rand.nextInt(lastFmResponse.getTopartists().getArtist().size())).getName();
 
+
+
+        String last_fm_track = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&api_key=a279739ea5aedd3e58eac7b34dbba8bc&format=json&artist=" + chooseArtist;
+        String lastFMTrack = when().get(last_fm_track).getBody().prettyPrint();
+
+        TopArtistTrackResponse topArtistTrackResponse = JsonParser.fromJson(lastFMTrack, TopArtistTrackResponse.class);
+
+        String chooseTrack = " " + topArtistTrackResponse.getTopTracks().getTrackList().get(rand.nextInt(topArtistTrackResponse.getTopTracks().getTrackList().size())).getName();
+
+        chooseArtist += chooseTrack;
+
         System.out.println("We choose " + chooseArtist);
 
-        YouTubeAPI youTubeAPI = new YouTubeAPI(chooseArtist, "medium");
+        YouTubeAPI youTubeAPI = new YouTubeAPI(chooseArtist, "short");
         String url = youTubeAPI.getUrl();
         System.out.println("URL = " + url);
 
