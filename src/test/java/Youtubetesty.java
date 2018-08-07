@@ -6,7 +6,10 @@ import org.testng.annotations.Test;
 import youtubeSerilisation.Items;
 import youtubeSerilisation.YoutubeResponce;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import static com.codeborne.selenide.Configuration.browser;
@@ -18,12 +21,37 @@ import static io.restassured.RestAssured.when;
  */
 public class Youtubetesty {
 
-    @Test
+    @Test(invocationCount = 10)
     public void checkApiYoutube() throws InterruptedException {
+
+        HashMap<String, String> test = new HashMap<>();
+        test.put("test",null);
+        test.put("test1", "");
+
+        //System.out.println("test :" + test.get("test"));
+        if(!test.containsKey("test2") || test.get("test2").isEmpty()) {
+            System.out.println("hurrah");
+        }
 
         Random rand = new Random();
 
-        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=russian&api_key=last_fm&format=json&page=1";
+        List<String> genres = Arrays.asList("thrash rock", "alternative rock", "progressive rock", "hard rock",
+                "classic rock", "rock", "progressive rock", "hardcore",
+                "psychedelic rock",  "indie rock", "chillout","post-rock"//,
+//                "70s",
+//                "thrash metal", "metal", "metalcore",
+//                "heavy metal", "80s", "blues", "psychedelic",
+//                "guitar", "jazz", "acoustic", "folk",
+//                "electronic", "indie", "pop", "chill", "punk",
+//                "Hip-Hop", "instrumental", "soul",
+//                "Classical", "industrial", "punk rock", "japanese","power metal",
+//                 "german", "funk", "hip hop", "russian", "synthwave"
+        );
+
+        String genre = genres.get(rand.nextInt(genres.size()));
+
+
+        String last_fm = "http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&api_key=key&format=json&limit=25&tag=" + genre;
         String lastFmResponseString = when().get(last_fm).getBody().prettyPrint();
 
         TopArtistResponse lastFmResponse = JsonParser.fromJson(lastFmResponseString, TopArtistResponse.class);
@@ -32,7 +60,7 @@ public class Youtubetesty {
 
 
 
-        String last_fm_track = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&api_key=a279739ea5aedd3e58eac7b34dbba8bc&format=json&artist=" + chooseArtist;
+        String last_fm_track = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&api_key=a279key739ea5aedd3e58eac7b34dbba8bc&format=json&limit=25&artist=" + chooseArtist;
         String lastFMTrack = when().get(last_fm_track).getBody().prettyPrint();
 
         TopArtistTrackResponse topArtistTrackResponse = JsonParser.fromJson(lastFMTrack, TopArtistTrackResponse.class);
@@ -41,9 +69,8 @@ public class Youtubetesty {
 
         chooseArtist += chooseTrack;
 
-        System.out.println("We choose " + chooseArtist);
 
-        YouTubeAPI youTubeAPI = new YouTubeAPI(chooseArtist, "short");
+        YouTubeAPI youTubeAPI = new YouTubeAPI(chooseArtist, "any");
         String url = youTubeAPI.getUrl();
         System.out.println("URL = " + url);
 
@@ -59,12 +86,14 @@ public class Youtubetesty {
 
         Items item = Arrays.asList(response.getItems()).get(rand.nextInt(response.getItems().length));
         String videoId = item.getId().getVideoId();
-        System.out.println("videoId = " + videoId);
+        System.out.println("Genre : " + genre);
+        System.out.println("We choose " + chooseArtist);
+        System.out.println("video url = " + "https://www.youtube.com/watch?v=" + videoId);
         String newYoutubeUrl = "https://www.youtube.com/watch?v=" + videoId;
         browser = "chrome";
         Selenide.open(newYoutubeUrl);
-        Thread.sleep(100000);
-
+        Thread.sleep(240000);
+        Selenide.close();
 
 
     }
